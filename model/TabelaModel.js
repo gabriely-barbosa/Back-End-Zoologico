@@ -7,23 +7,28 @@ const connection = require('../database/Database');
 const modelCategoria = connection.define(
     'tbl_categoria',
     {
-      nome_Animal:{
-            type: Sequelize.STRING(100),
-            allowNull: false 
+        cod_Animal: {
+            type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
         },
-        identificacao_animal:{
+      nome_Animal: {
+            type: Sequelize.STRING(100),
+            allowNull: false
+        },
+        identificacao_animal: {
             type: Sequelize.STRING(50),
             allowNull: false
         },
-        sexo_animal:{
+        sexo_animal: {
             type: Sequelize.STRING(1),
             allowNull: false
         },
-        cor_animal:{
+        cor_animal: {
             type: Sequelize.STRING(50),
             allowNull: false
         },
-        dataNasc_animal:{
+        dataNasc_animal: {
             type: Sequelize.DATE(6),
             allowNull: false
         }
@@ -31,6 +36,6 @@ const modelCategoria = connection.define(
     }
 );
 
-// modelCategoria.sync({force:true});
+//modelCategoria.sync({force:true});
 
 module.exports = modelCategoria;

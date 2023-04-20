@@ -55,31 +55,30 @@ Router.get('/listarAnimal', (req, res) => {
     )
 });
 
-Router.get('/listarCategoriaPK/:cod_categoria', (req, res) => {
-    
-    //Declarar e receber o dado de código de categoria
-    let {cod_Animal, identificacao_animal, sexo_animal, cor_animal, dataNasc_animal} = req.params;
+Router.get('/listarAnimalID/:id', (req, res)=>{
 
-    // Ação de seleção de dados do sequelize 
-    modelCategoria.findByPK(cod_Animal, identificacao_animal, sexo_animal, cor_animal, dataNasc_animal)
+    let {id} = req.params;
+  
+    modelCategoria.findByPk(id)
     .then(
-        (response)=>{
-            res.status(200).json({
-                erroStatus:false,
-                mensagemStatus:"Categoria Recuperada com sucesso!",
-                data:response 
-            });
-        }
+      (response)=>{
+        return res.status(200).json({
+          erroStatus:false,
+          mensagemStatus:"CATEGORIA RECUPERADA COM SUCESSO.",
+          data:response
+        })
+      }
     ).catch(
-        (error) => {
-            return res.status(400).json({
-                erroStatus:true,
-                mensagemStatus:"Erro ao recuperar a categoria",
-                errorObject:error
-            });
-        }
+      (error)=>{
+        return res.status(400).json({
+          erroStatus:true,
+          mensagemStatus:"ERRO AO RECUPERAR A CATEGORIA.",
+          errorObject:error
+        });
+      }
     )
-});
+  
+  });
 
 //Rota de listagem de categoria por nome_categoria
 Router.get('/listarCategoriaNOME/:nome_categoria', (req, res) => {
@@ -108,7 +107,7 @@ Router.get('/listarCategoriaNOME/:nome_categoria', (req, res) => {
 
 
 //Rota de alteração de categoria
-Router.put('/alterarCategoria', (req, res) => {
+Router.put('/alterarAnimal', (req, res) => {
 
     // const cod_categoria = req.body.cod_categoria;
     // const nome_categoria = req.body.cod_categoria;
@@ -121,14 +120,14 @@ Router.put('/alterarCategoria', (req, res) => {
         () => {
             return res.status(200).json({
                 erroStatus:false,
-                mensagemStatus:'Categoria alterada com sucesso'
+                mensagemStatus:'Animal alterado com sucesso'
             })
         }
     ).catch(
         (error) => {
             return res.status(400).json({
                 erroStatus:true,
-                mensagemStatus:"Erro ao alterar categoria",
+                mensagemStatus:"Erro ao alterar animal",
                 errorObject:error
             });
         }
@@ -159,5 +158,36 @@ Router.delete('/deletarCategoria/:cod_categoria', (req, res) => {
         }
     )
 });
+
+Router.delete('/excluirAnimal/:cod_Animal', (req, res)=>{
+    console.log(req.params);
+    let {cod_Animal} = req.params
+
+    modelCategoria.destroy(
+
+      {where:{cod_Animal}}
+
+    ).then(
+
+      ()=>{
+        return res.status(200).json({
+
+          erroStatus:false,
+          mensagemStatus:"CATEGORIA EXCLUIDA COM SUCESSO."
+
+        })
+      }
+    ).catch(
+      (error)=>{
+        return res.status(400).json({
+
+          erroStatus:true,
+          mensagemStatus:"ERRO AO EXCLUIR A CATEGORIA.",
+          errorObject:error
+
+        })
+      }
+    );
+  });
 
 module.exports = Router;
